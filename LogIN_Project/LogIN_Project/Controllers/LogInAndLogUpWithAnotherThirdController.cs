@@ -6,11 +6,16 @@ using System.Web.Mvc;
 
 namespace LogIN_Project.Controllers
 {
-    public class GoogleLogINController : Controller
+    public class LogInAndLogUpWithAnotherThirdController : Controller
     {
         // GET: GoogleLogIN
-        public ActionResult Index()
+        public ActionResult GoogleLogIN()
         {
+            return View();
+        }
+        public ActionResult FacebookLogIN()
+        {
+
             return View();
         }
     }
