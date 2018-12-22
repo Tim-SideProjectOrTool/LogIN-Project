@@ -38,7 +38,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="登入" class="btn btn-default" />
+                        <input type="submit" id="LogIN" value="登入" class="btn btn-default" />
                     </div>
                 </div>
                 <p>
@@ -61,3 +61,65 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+
+<br />
+<button id="customBtn" type="button">Google登入</button>
+<button type="button" onclick="signOut();">登出</button>
+<br />
+---------------------------------------------------------------------
+<br /><br />
+登入狀態 :
+<br />
+<div id="name" style="font-size:large"></div>
+<br />
+---------------------------------------------------------------------
+<br />
+
+<script src="https://apis.google.com/js/api:client.js"></script>
+<script>
+    var googleUser = {};
+    var startApp = function () {
+        gapi.load('auth2', function () {
+            // Retrieve the singleton for the GoogleAuth library and set up the client.
+            auth2 = gapi.auth2.init({
+                client_id: '16959301078-auvq07i3bm7ilgnoddbr527rhln0uip5.apps.googleusercontent.com', //用戶端 ID   {貼上用戶端 ID}.apps.googleusercontent.com
+
+                cookiepolicy: 'single_host_origin',
+                scope: 'profile' //可以請求除了默認的'profile' and 'email'之外的數據
+            });
+            attachSignin(document.getElementById('customBtn'));
+        });
+    };
+
+    function attachSignin(element) {
+        auth2.attachClickHandler(element, {},
+            function (googleUser) {
+                document.getElementById('name').innerText = "Signed in: " + googleUser.getBasicProfile().getName();
+                var profile = auth2.currentUser.get().getBasicProfile();
+                console.log('ID: ' + profile.getId());
+                console.log('Full Name: ' + profile.getName());
+                console.log('Given Name: ' + profile.getGivenName());
+                console.log('Family Name: ' + profile.getFamilyName());
+                console.log('Image URL: ' + profile.getImageUrl());
+                console.log('Email: ' + profile.getEmail());
+                // The ID token you need to pass to your backend:
+                var id_token = googleUser.getAuthResponse().id_token;
+                console.log("ID Token: " + id_token);
+
+                document.getElementById("Email").value = profile.getEmail();
+                document.getElementById("Password").value = profile.getEmail();
+                document.getElementById("LogIN").click();
+            }, function (error) {
+                console.log(JSON.stringify(error, undefined, 2));
+            });
+    }
+    startApp();
+
+    //登出
+    function signOut() {
+        var auth2 = gapi.auth2.getAuthInstance();
+        auth2.signOut().then(function () {
+            alert('成功登出');
+            document.getElementById('name').innerText = "Signed Out";
+        });
+    }</script>
