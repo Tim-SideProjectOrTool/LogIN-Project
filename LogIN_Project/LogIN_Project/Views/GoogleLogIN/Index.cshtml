@@ -12,7 +12,6 @@
 <br />
 
 
-
 @*
     使用前請先去Google API 連結-->https://console.cloud.google.com/apis/
     選取 : 憑證-->已授權的 JavaScript 來源 -->在 JavaScript 來源內輸入URL(可輸入http://localhost:8868)
@@ -28,7 +27,8 @@
         gapi.load('auth2', function () {
             // Retrieve the singleton for the GoogleAuth library and set up the client.
             auth2 = gapi.auth2.init({
-                client_id: '{貼上用戶端 ID}.apps.googleusercontent.com', //用戶端 ID
+                client_id: '16959301078-auvq07i3bm7ilgnoddbr527rhln0uip5.apps.googleusercontent.com', //用戶端 ID   {貼上用戶端 ID}.apps.googleusercontent.com
+
                 cookiepolicy: 'single_host_origin',
                 scope: 'profile' //可以請求除了默認的'profile' and 'email'之外的數據
             });
@@ -47,6 +47,14 @@
                 console.log('Family Name: ' + profile.getFamilyName());
                 console.log('Image URL: ' + profile.getImageUrl());
                 console.log('Email: ' + profile.getEmail());
+                // The ID token you need to pass to your backend:
+                var id_token = googleUser.getAuthResponse().id_token;
+                console.log("ID Token: " + id_token);
+
+                document.getElementById("Email").value = profile.getEmail();
+                document.getElementById("Password").value = profile.getEmail();
+                document.getElementById("ConfirmPassword").value = profile.getEmail();
+                document.getElementById("LogUP").click();
             }, function (error) {
                 console.log(JSON.stringify(error, undefined, 2));
             });
