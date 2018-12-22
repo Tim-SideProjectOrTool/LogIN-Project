@@ -1,1 +1,61 @@
-﻿
+﻿<br />
+<button id="customBtn" type="button">Google登入</button>
+<button type="button" onclick="signOut();">登出</button>
+<br />
+---------------------------------------------------------------------
+<br /><br />
+登入狀態 :
+<br />
+<div id="name" style="font-size:large"></div>
+<br />
+---------------------------------------------------------------------
+<br />
+
+
+
+@*
+    使用前請先去Google API 連結-->https://console.cloud.google.com/apis/
+    選取 : 憑證-->已授權的 JavaScript 來源 -->在 JavaScript 來源內輸入URL(可輸入http://localhost:8868)
+    在gapi.load的client_id貼入 用戶端 ID
+*@
+
+<script src="https://apis.google.com/js/api:client.js"></script>
+<script>
+    var googleUser = {};
+    var startApp = function () {
+        gapi.load('auth2', function () {
+            // Retrieve the singleton for the GoogleAuth library and set up the client.
+            auth2 = gapi.auth2.init({
+                client_id: '{貼上用戶端 ID}.apps.googleusercontent.com', //用戶端 ID
+                cookiepolicy: 'single_host_origin',
+                scope: 'profile' //可以請求除了默認的'profile' and 'email'之外的數據
+            });
+            attachSignin(document.getElementById('customBtn'));
+        });
+    };
+
+    function attachSignin(element) {
+        auth2.attachClickHandler(element, {},
+            function (googleUser) {
+                document.getElementById('name').innerText = "Signed in: " + googleUser.getBasicProfile().getName();
+                var profile = auth2.currentUser.get().getBasicProfile();
+                console.log('ID: ' + profile.getId());
+                console.log('Full Name: ' + profile.getName());
+                console.log('Given Name: ' + profile.getGivenName());
+                console.log('Family Name: ' + profile.getFamilyName());
+                console.log('Image URL: ' + profile.getImageUrl());
+                console.log('Email: ' + profile.getEmail());
+            }, function (error) {
+                console.log(JSON.stringify(error, undefined, 2));
+            });
+    }
+    startApp();
+
+    //登出
+    function signOut() {
+        var auth2 = gapi.auth2.getAuthInstance();
+        auth2.signOut().then(function () {
+            alert('成功登出');
+            document.getElementById('name').innerText = "Signed Out";
+        });
+    }</script>
