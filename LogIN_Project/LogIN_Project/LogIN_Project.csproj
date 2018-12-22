@@ -229,7 +229,12 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="IMG\google登入\Google API註冊專案一.jpg" />
+    <Content Include="IMG\google登入\Google API註冊專案三.jpg" />
+    <Content Include="IMG\google登入\Google API註冊專案二.jpg" />
+    <Content Include="IMG\google登入\Google API註冊專案四.jpg" />
     <Content Include="IMG\google登入\Google API說明一.jpg" />
+    <Content Include="IMG\google登入\Google API說明二.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
